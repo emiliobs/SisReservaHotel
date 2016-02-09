@@ -16,7 +16,7 @@ public class FReserva
 {
      private Conexion mysql = new Conexion();
     private Connection cn = mysql.conectar();
-    private String sSql = " ";
+    private String sSQL = " ";
     public  int TotalRegistros;
     
     ////SELECT `idproducto`, `nombre`, `descripcion`, `unidad_medida`, `precio_venta` FROM `producto` WHERE 1
@@ -35,39 +35,37 @@ public class FReserva
        
        modelo = new DefaultTableModel(null, titulos);
        
-       sSql = "select r.idreserva,r.idhabitacion,h.numero,r.idcliente,"+
-              "(select nombre from persona where idpersona = r.idcliente) as NombreCliente,"+
-              "(select apaterno from persona where idpersona = r.idcliente) as ApellidoCliente,"+
-              "r.idtrabajador,(select nombre from persona where idpersona = r.idtrabajador) as NombreTrabjador,"+
-              "(select apaterno from persona where idpersona = r.idtrabajador) as ApellidoTrabajador,"+
-              "r.tipo_reserva,r.fecha_reserva,r.fecha_ingreso,r.fecha_salida,"+
-              "r.costo_alojamiento,r.estado from reserva r inner join habitacion h on r.idhabitacion = r.idhabitacion where r.fecha_reserva like '%"+ Buscar + "%' order by idreserva desc";
+      sSQL="select r.idreserva,r.idhabitacion,h.numero,r.idcliente,"+
+               "(select nombre from persona where idpersona=r.idcliente)as clienten,"+
+               "(select apaterno from persona where idpersona=r.idcliente)as clienteap,"+
+               "r.idtrabajador,(select nombre from persona where idpersona=r.idtrabajador)as trabajadorn,"+
+               "(select apaterno from persona where idpersona=r.idtrabajador)as trabajadorap,"+
+               "r.tipo_reserva,r.fecha_reserva,r.fecha_ingresa,r.fecha_salida,r.costo_alojamiento,"+
+               "r.estado from reserva r inner join habitacion h on r.idhabitacion = h.idhabitacion where r.fecha_reserva like '%"+ Buscar + "%' order by idreserva desc";
        
         try 
         {
            Statement st = cn.createStatement();
-           ResultSet rs = st.executeQuery(sSql);
+           ResultSet rs = st.executeQuery(sSQL);
            
             while (rs.next())
             {      
 
-               registro[0] = rs.getString("Idreserva");
-               registro[1] = rs.getString("idhabitacion");
-               registro[2] = rs.getString("numero");
-               registro[3] = rs.getString("idcliente");
-               registro[4] = rs.getString("NombreCliente") + " " + rs.getString("ApellidoCliente");
-               registro[5] = rs.getString("idtrabajador");
-               registro[6] = rs.getString("NombreTrabjador") + " " + rs.getString("ApellidoTrabajador");
-               registro[7] = rs.getString("tipo_reserva");
-               registro[8] = rs.getString("fecha_reserva");
-               registro[9] = rs.getString("fecha_ingreso");
-               registro[10] = rs.getString("fecha_salida");
-               registro[11] = rs.getString("costo_alojamiento");
-               registro[12] = rs.getString("estado");
+               registro [0]=rs.getString("idreserva");
+               registro [1]=rs.getString("idhabitacion");
+               registro [2]=rs.getString("numero");
+               registro [3]=rs.getString("idcliente");
+               registro [4]=rs.getString("clienten") + " " + rs.getString("clienteap") ;
+               registro [5]=rs.getString("idtrabajador");
+               registro [6]=rs.getString("trabajadorn") + " " + rs.getString("trabajadorap");
+               registro [7]=rs.getString("tipo_reserva");
+               registro [8]=rs.getString("fecha_reserva");
+               registro [9]=rs.getString("fecha_ingresa");
+               registro [10]=rs.getString("fecha_salida");
+               registro [11]=rs.getString("costo_alojamiento");
+               registro [12]=rs.getString("estado");
                
-               
-               TotalRegistros = TotalRegistros + 1 ;
-               
+               TotalRegistros = TotalRegistros+1;
                modelo.addRow(registro);
             }
             
@@ -82,24 +80,24 @@ public class FReserva
        
     }
     
-    public boolean Insertar (VReserva datos)
+    public boolean Insertar (VReserva dts)
     {
        
-            sSql = "INSERT INTO reserva(idreserva,idhabitacion,idcliente,idtrabajador,"+
-                 "tipo_reserva,fecha_reserva,fecha_ingresa,fecha_salida,costo_alojamiento,estado) VALUE(?,?,?,?,?,?,?,?,?)";
+            sSQL = "insert into reserva (idhabitacion,idcliente,idtrabajador,tipo_reserva,fecha_reserva,fecha_ingresa,fecha_salida,costo_alojamiento,estado)" +
+               "values (?,?,?,?,?,?,?,?,?)";
         
         try 
         {
-            PreparedStatement pst = cn.prepareStatement(sSql);
-            pst.setInt(1, datos.getIdHabitacion());
-            pst.setInt(2, datos.getIdCliente());
-            pst.setInt(3, datos.getIdTrabajador());
-            pst.setString(4, datos.getTipoRserva());
-            pst.setDate(5, datos.getFechaReserva());
-            pst.setDate(6, datos.getFechaIngreso());
-            pst.setDate(7, datos.getFechaSalida());
-            pst.setDouble(8, datos.getCostoAlojamiento());
-            pst.setString(9, datos.getEstado());
+           PreparedStatement pst = cn.prepareStatement(sSQL);
+           pst.setInt(1, dts.getIdHabitacion());
+           pst.setInt(2, dts.getIdCliente());
+           pst.setInt(3, dts.getIdTrabajador());
+           pst.setString(4, dts.getTipoRserva());
+           pst.setDate(5, dts.getFechaReserva());
+           pst.setDate(6, dts.getFechaIngreso());
+           pst.setDate(7, dts.getFechaSalida());
+           pst.setDouble(8, dts.getCostoAlojamiento());
+           pst.setString(9, dts.getEstado());
                        
             int n = pst.executeUpdate();
             
@@ -120,21 +118,32 @@ public class FReserva
         }
     }
     
-    public boolean Editar (VProducto producto)
+    public boolean Editar (VReserva dts)
     {
-        sSql = "UPDATE producto SET  nombre = ?,descripcion = ?,unidad_medida = ?,"
-             + "precio_venta = ? WHERE idproducto = ? ";
+//        UPDATE `reserva` SET `idreserva`=[value-1],`idhabitacion`=[value-2],
+//        `idcliente`=[value-3],`idtrabajador`=[value-4],`tipo_reserva`=[value-5],
+//        `fecha_reserva`=[value-6],`fecha_ingresa`=[value-7],`fecha_salida`=[value-8],
+//        `costo_alojamiento`=[value-9],`estado`=[value-10] WHERE 1
+        
+        sSQL = "update reserva set idhabitacion=?,idcliente=?,idtrabajador=?,tipo_reserva=?,fecha_reserva=?,fecha_ingresa=?,fecha_salida=?,costo_alojamiento=?,estado=?"+
+               " where idreserva=?";
         
         try 
         {
-            PreparedStatement pst = cn.prepareStatement(sSql);
             
-            pst.setString(1, producto.getNombre());
-            pst.setString(2, producto.getDescripcion());
-            pst.setString(3, producto.getUnidadMedida());
-            pst.setDouble(4, producto.getPrecioVenta());
-            pst.setInt(5, producto.getIdProducto());
             
+           PreparedStatement pst = cn.prepareStatement(sSQL);
+           pst.setInt(1, dts.getIdHabitacion());
+           pst.setInt(2, dts.getIdCliente());
+           pst.setInt(3, dts.getIdTrabajador());
+           pst.setString(4, dts.getTipoRserva());
+           pst.setDate(5, dts.getFechaReserva());
+           pst.setDate(6, dts.getFechaIngreso());
+           pst.setDate(7, dts.getFechaSalida());
+           pst.setDouble(8, dts.getCostoAlojamiento());
+           pst.setString(9, dts.getEstado());
+           
+           pst.setInt(10, dts.getIdReserva());
             
             int n = pst.executeUpdate();
             
@@ -155,15 +164,15 @@ public class FReserva
         }
     }
     
-    public boolean Eliminar (VProducto producto)
+    public boolean Eliminar (VReserva datos)
     {
-        sSql="DELETE FROM  producto  WHERE idproducto = ?";
+        sSQL="DELETE FROM  reserva  WHERE idreserva = ?";
         
         try 
         {
-            PreparedStatement pst = cn.prepareStatement(sSql);
+            PreparedStatement pst = cn.prepareStatement(sSQL);
             
-            pst.setInt(1, producto.getIdProducto());
+            pst.setInt(1, datos.getIdReserva());
             
             int n = pst.executeUpdate();
             
