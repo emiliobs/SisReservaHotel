@@ -35,11 +35,11 @@ public class frmInicio extends javax.swing.JFrame {
         lblApaterno = new javax.swing.JLabel();
         lblNombre = new javax.swing.JLabel();
         lblIdPersona = new javax.swing.JLabel();
-        ac = new javax.swing.JLabel();
-        trabajador = new javax.swing.JLabel();
-        nombre = new javax.swing.JLabel();
-        ap = new javax.swing.JLabel();
-        am = new javax.swing.JLabel();
+        lblidpersona = new javax.swing.JLabel();
+        lblnombre = new javax.swing.JLabel();
+        lblapaterno = new javax.swing.JLabel();
+        lblamaterno = new javax.swing.JLabel();
+        lblacceso = new javax.swing.JLabel();
         menuBar = new javax.swing.JMenuBar();
         mnuSisReserva = new javax.swing.JMenu();
         mnuArchivo = new javax.swing.JMenu();
@@ -82,35 +82,30 @@ public class frmInicio extends javax.swing.JFrame {
         escritorio.add(lblIdPersona);
         lblIdPersona.setBounds(140, 80, 380, 0);
 
-        ac.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        ac.setForeground(new java.awt.Color(255, 51, 51));
-        ac.setText("jLabel1");
-        escritorio.add(ac);
-        ac.setBounds(40, 280, 350, 22);
+        lblidpersona.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
+        lblidpersona.setText("jLabel1");
+        escritorio.add(lblidpersona);
+        lblidpersona.setBounds(50, 40, 130, 16);
 
-        trabajador.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        trabajador.setForeground(new java.awt.Color(255, 51, 51));
-        trabajador.setText("jLabel1");
-        escritorio.add(trabajador);
-        trabajador.setBounds(40, 40, 350, 22);
+        lblnombre.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
+        lblnombre.setText("jLabel2");
+        escritorio.add(lblnombre);
+        lblnombre.setBounds(50, 100, 130, 16);
 
-        nombre.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        nombre.setForeground(new java.awt.Color(255, 51, 51));
-        nombre.setText("jLabel1");
-        escritorio.add(nombre);
-        nombre.setBounds(40, 90, 350, 22);
+        lblapaterno.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
+        lblapaterno.setText("jLabel3");
+        escritorio.add(lblapaterno);
+        lblapaterno.setBounds(50, 150, 130, 16);
 
-        ap.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        ap.setForeground(new java.awt.Color(255, 51, 51));
-        ap.setText("jLabel1");
-        escritorio.add(ap);
-        ap.setBounds(40, 160, 350, 22);
+        lblamaterno.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
+        lblamaterno.setText("jLabel4");
+        escritorio.add(lblamaterno);
+        lblamaterno.setBounds(50, 190, 130, 16);
 
-        am.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        am.setForeground(new java.awt.Color(255, 51, 51));
-        am.setText("jLabel1");
-        escritorio.add(am);
-        am.setBounds(40, 220, 350, 22);
+        lblacceso.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
+        lblacceso.setText("jLabel7");
+        escritorio.add(lblacceso);
+        lblacceso.setBounds(50, 240, 130, 16);
 
         mnuSisReserva.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Files/inicio.png"))); // NOI18N
         mnuSisReserva.setText("SisReserva");
@@ -152,6 +147,11 @@ public class frmInicio extends javax.swing.JFrame {
         contentMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Files/reserva.gif"))); // NOI18N
         contentMenuItem.setMnemonic('c');
         contentMenuItem.setText("Reservas y Consumos");
+        contentMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                contentMenuItemActionPerformed(evt);
+            }
+        });
         mnuReserva.add(contentMenuItem);
 
         aboutMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.CTRL_MASK));
@@ -275,6 +275,18 @@ public class frmInicio extends javax.swing.JFrame {
         frm.setVisible(true);
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
+    private void contentMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_contentMenuItemActionPerformed
+        // TODO add your handling code here:
+        frmReserva form = new frmReserva();
+        escritorio.add(form);
+        form.toFront();
+        form.setVisible(true);
+        frmReserva.txtidTrabajador.setText(lblidpersona.getText());
+        frmReserva.txtTrabajador.setText(lblnombre.getText() + " " + lblapaterno.getText());
+        frmReserva.idUsuario=Integer.parseInt(lblidpersona.getText());
+        
+    }//GEN-LAST:event_contentMenuItemActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -312,13 +324,10 @@ public class frmInicio extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem aboutMenuItem;
-    public static javax.swing.JLabel ac;
-    public static javax.swing.JLabel am;
-    public static javax.swing.JLabel ap;
     private javax.swing.JMenuItem contentMenuItem;
     private javax.swing.JMenuItem copyMenuItem;
     private javax.swing.JMenuItem cutMenuItem;
-    private javax.swing.JDesktopPane escritorio;
+    public static javax.swing.JDesktopPane escritorio;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
@@ -328,6 +337,11 @@ public class frmInicio extends javax.swing.JFrame {
     public static javax.swing.JLabel lblApaterno;
     public static javax.swing.JLabel lblIdPersona;
     public static javax.swing.JLabel lblNombre;
+    public static javax.swing.JLabel lblacceso;
+    public static javax.swing.JLabel lblamaterno;
+    public static javax.swing.JLabel lblapaterno;
+    public static javax.swing.JLabel lblidpersona;
+    public static javax.swing.JLabel lblnombre;
     private javax.swing.JMenuBar menuBar;
     public static javax.swing.JMenu mnuArchivo;
     private javax.swing.JMenu mnuAyuda;
@@ -337,8 +351,6 @@ public class frmInicio extends javax.swing.JFrame {
     private javax.swing.JMenu mnuReserva;
     private javax.swing.JMenu mnuSalir;
     private javax.swing.JMenu mnuSisReserva;
-    public static javax.swing.JLabel nombre;
-    public static javax.swing.JLabel trabajador;
     // End of variables declaration//GEN-END:variables
 
 }

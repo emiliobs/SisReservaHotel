@@ -341,6 +341,9 @@ public class frmHabitacion extends javax.swing.JInternalFrame {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tablalistadoMouseClicked(evt);
             }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                tablalistadoMousePressed(evt);
+            }
         });
         jScrollPane3.setViewportView(tablalistado);
 
@@ -614,6 +617,11 @@ public class frmHabitacion extends javax.swing.JInternalFrame {
         Inhabilitar();
         OcultarColumnass();
     }//GEN-LAST:event_btnCancelarActionPerformed
+
+    private void tablalistadoMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablalistadoMousePressed
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_tablalistadoMousePressed
 
     /**
      * @param args the command line arguments

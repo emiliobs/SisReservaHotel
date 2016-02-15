@@ -180,13 +180,18 @@ public class frmUsuarioLogin extends javax.swing.JFrame {
                 //y lo hago visible
                 frm.setVisible(true);
                 
-                frmInicio.trabajador.setText(tblListado.getValueAt(0, 0).toString());
-                frmInicio.nombre.setText(tblListado.getValueAt(0, 1).toString());
-                frmInicio.ap.setText(tblListado.getValueAt(0, 2).toString());
-                frmInicio.am.setText(tblListado.getValueAt(0, 3).toString());
-                frmInicio.ac.setText(tblListado.getValueAt(0, 4).toString());
+                frmInicio.lblidpersona.setText(tblListado.getValueAt(0, 0).toString());
+                frmInicio.lblnombre.setText(tblListado.getValueAt(0, 1).toString());
+                frmInicio.lblapaterno.setText(tblListado.getValueAt(0, 2).toString());
+                frmInicio.lblamaterno.setText(tblListado.getValueAt(0, 3).toString());
+                frmInicio.lblacceso.setText(tblListado.getValueAt(0, 4).toString());
                 
-                if (!frmInicio.lblAcceso.getText().equals("Administrador"))
+                if (frmInicio.lblAcceso.getText().equals("Administrador"))
+                {
+                    frmInicio.mnuArchivo.setEnabled(true);
+                    frmInicio.mnuConfiguracion.setEnabled(true);
+                }
+                else if(frmInicio.lblAcceso.equals("Digitador"))
                 {
                     frmInicio.mnuArchivo.setEnabled(false);
                     frmInicio.mnuConfiguracion.setEnabled(false);
