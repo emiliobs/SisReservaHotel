@@ -231,6 +231,8 @@ public class frmVistaProducto extends javax.swing.JFrame {
             frmConsumo.txtProducto.setText(Producto);
             frmConsumo.txtPrecioVenta.setText(precioVenta);
             
+            
+            
             this.dispose();
         }
     }//GEN-LAST:event_tablalistadoMousePressed

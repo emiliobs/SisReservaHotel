@@ -24,11 +24,16 @@ public class frmConsumo extends javax.swing.JInternalFrame {
      * Creates new form frmConsumo
      */
     public frmConsumo() {
+        
+        
         initComponents();
         
         Mostrar(idreserva);
+        
+        jTextField1.setText(idreserva);
+        //reserva.setText(idreserva);
         txtCliente.setText(cliente);
-        txtidreserva.setText(idreserva);
+       
         Inhabilitar();
     }
     
@@ -43,18 +48,19 @@ public class frmConsumo extends javax.swing.JInternalFrame {
         
         tablalistado.getColumnModel().getColumn(1).setMaxWidth(0);
         tablalistado.getColumnModel().getColumn(1).setMinWidth(0);
-        tablalistado.getColumnModel().getColumn(1).setPreferredWidth(0);  
+        tablalistado.getColumnModel().getColumn(1).setPreferredWidth(0);
         
         tablalistado.getColumnModel().getColumn(2).setMaxWidth(0);
         tablalistado.getColumnModel().getColumn(2).setMinWidth(0);
-        tablalistado.getColumnModel().getColumn(2).setPreferredWidth(0);  
+        tablalistado.getColumnModel().getColumn(2).setPreferredWidth(0);
         
     }
     
     void habilitar()
     {
-       txtidconsumo.setVisible(false);       
-       txtidreserva.setVisible(false);
+     reserva.setVisible(false);
+       txtidconsumo.setVisible(true);       
+       jTextField1.setVisible(false);
        txtidproducto.setVisible(false);
        txtCliente.setEnabled(true);
        txtProducto.setEnabled(true);
@@ -69,18 +75,20 @@ public class frmConsumo extends javax.swing.JInternalFrame {
        btnCancelar.setEnabled(true);
        btnEliminar.setEnabled(true);
        
-      txtidconsumo.setText("");
-       txtidreserva.setText("");
+     // txtidconsumo.setText("");
+       //jTextField1.setText("");
        txtPrecioVenta.setText("");
        txtidproducto.setText("");
        txtcantidad.setText("");
+       txtProducto.setText("");
        
     }
     
     void Inhabilitar()
     {
-       txtidconsumo.setVisible(false);       
-       txtidreserva.setVisible(false);
+        reserva.setVisible(false);
+       txtidconsumo.setVisible(true);       
+       jTextField1.setVisible(false);
        txtidproducto.setVisible(false);
        txtCliente.setEnabled(false);
        txtProducto.setEnabled(false);
@@ -94,7 +102,7 @@ public class frmConsumo extends javax.swing.JInternalFrame {
        btnEliminar.setEnabled(false);
        
        txtidconsumo.setText("");
-       txtidreserva.setText("");
+      // reserva.setText("");
        txtPrecioVenta.setText("");
        txtidproducto.setText("");
        txtcantidad.setText("");
@@ -132,7 +140,6 @@ public class frmConsumo extends javax.swing.JInternalFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        txtidreserva = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         txtidconsumo = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
@@ -149,6 +156,8 @@ public class frmConsumo extends javax.swing.JInternalFrame {
         btnBuscarProducto = new javax.swing.JButton();
         txtcantidad = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
+        reserva = new javax.swing.JTextField();
+        jTextField1 = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
@@ -158,17 +167,11 @@ public class frmConsumo extends javax.swing.JInternalFrame {
         lblTotalRegistros = new javax.swing.JLabel();
         lblTotalConsumo = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jPanel1.setBackground(new java.awt.Color(255, 204, 51));
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Registro de Consumo:", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 14))); // NOI18N
         jPanel1.setForeground(new java.awt.Color(255, 255, 255));
-
-        txtidreserva.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtidreservaActionPerformed(evt);
-            }
-        });
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel2.setText("Reserva:");
@@ -247,6 +250,8 @@ public class frmConsumo extends javax.swing.JInternalFrame {
         jLabel5.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel5.setText("Cantidad:");
 
+        jTextField1.setText("jTextField1");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -255,13 +260,7 @@ public class frmConsumo extends javax.swing.JInternalFrame {
                 .addGap(42, 42, 42)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel2)
-                                .addGap(81, 81, 81)
-                                .addComponent(txtidreserva, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(txtCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 283, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel7)
                                 .addGap(33, 33, 33)
@@ -276,12 +275,21 @@ public class frmConsumo extends javax.swing.JInternalFrame {
                                 .addComponent(txtcantidad, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel4)
-                                .addGap(39, 39, 39)
-                                .addGap(33, 33, 33)
+                                .addGap(72, 72, 72)
                                 .addComponent(txtidproducto, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
                                 .addComponent(txtProducto, javax.swing.GroupLayout.PREFERRED_SIZE, 283, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(txtidconsumo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addGap(146, 146, 146)
+                                .addComponent(txtidconsumo, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel2)
+                                .addGap(84, 84, 84)
+                                .addComponent(reserva)
+                                .addGap(18, 18, 18)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txtCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 283, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE))))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnBuscarProducto)
                         .addContainerGap(24, Short.MAX_VALUE))
@@ -298,17 +306,19 @@ public class frmConsumo extends javax.swing.JInternalFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(txtidconsumo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(49, 49, 49)
+                .addGap(20, 20, 20)
+                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(txtidreserva, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(reserva, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(50, 50, 50)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(txtidproducto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtProducto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnBuscarProducto))
+                    .addComponent(btnBuscarProducto)
+                    .addComponent(txtidproducto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(51, 51, 51)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtcantidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -408,7 +418,7 @@ public class frmConsumo extends javax.swing.JInternalFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnEliminar)
                     .addComponent(btnSalir))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 551, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -445,11 +455,6 @@ public class frmConsumo extends javax.swing.JInternalFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void txtidreservaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtidreservaActionPerformed
-        // TODO add your handling code here:
-        txtidreserva.transferFocus();
-    }//GEN-LAST:event_txtidreservaActionPerformed
 
     private void txtPrecioVentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPrecioVentaActionPerformed
         // TODO add your handling code here:
@@ -504,7 +509,7 @@ public class frmConsumo extends javax.swing.JInternalFrame {
         VConsumo dts = new VConsumo();
         Fconsumo func = new Fconsumo();
 
-        dts.setIdreserva(Integer.parseInt(txtidreserva.getText()));
+        dts.setIdreserva(Integer.parseInt(jTextField1.getText()));
         dts.setIdproducto(Integer.parseInt(txtidproducto.getText()));
         dts.setCantidad(Double.parseDouble(txtcantidad.getText()));
         dts.setPrecio_venta(Double.parseDouble(txtPrecioVenta.getText()));
@@ -512,42 +517,47 @@ public class frmConsumo extends javax.swing.JInternalFrame {
         int seleccionado = cboEstado.getSelectedIndex();
         dts.setEstado((String) cboEstado.getItemAt(seleccionado));
 
-        if (accion.equals("guardar")) {
-            if (func.Insertar(dts)) {
+        if (accion.equals("guardar"))
+        {
+            if (func.Insertar(dts)) 
+            {
                 JOptionPane.showMessageDialog(rootPane, "el consumo " + txtProducto.getText() + " del cliente "
                         + txtCliente.getText() + " Ha sido registrado correctamente");
                 Mostrar(idreserva);
                 Inhabilitar();
 
             }
+        }
 
         else if(accion.equals("editar"))
         {
             dts.setIdconsusmo(Integer.parseInt(txtidconsumo.getText()));
+            dts.setIdconsusmo(Integer.parseInt(txtidconsumo.getText()));
 
-            if (func.Editar(dts))
-            {
-                JOptionPane.showConfirmDialog(rootPane, "El Consumo del Cliente: " +
-                                              txtCliente.getText() + " ha sido modificado correctamente ");
+            if (func.Editar(dts)) {
+                JOptionPane.showMessageDialog(rootPane, "El consumo del cliente "
+                        + txtcantidad.getText() + " ha sido modificado correctamente ");
                 Mostrar(idreserva);
                 Inhabilitar();
             }
         }
         
-        }
+        
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void tablalistadoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablalistadoMouseClicked
         // TODO add your handling code here:
+        
+        
         btnGuardar.setText("Editar");
         habilitar();
         btnEliminar.setEnabled(true);
-        accion = "editar";
+        accion="editar";
 
         int fila = tablalistado.rowAtPoint(evt.getPoint());
 
         txtidconsumo.setText(tablalistado.getValueAt(fila, 0).toString());
-        txtidreserva.setText(tablalistado.getValueAt(fila, 1).toString());
+        jTextField1.setText(tablalistado.getValueAt(fila, 1).toString());
         txtidproducto.setText(tablalistado.getValueAt(fila, 2).toString());
         txtProducto.setText(tablalistado.getValueAt(fila, 3).toString());
         txtcantidad.setText(tablalistado.getValueAt(fila, 4).toString());
@@ -647,8 +657,10 @@ public class frmConsumo extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JTextField jTextField1;
     private javax.swing.JLabel lblTotalConsumo;
     private javax.swing.JLabel lblTotalRegistros;
+    private javax.swing.JTextField reserva;
     private javax.swing.JTable tablalistado;
     public static javax.swing.JTextField txtCliente;
     public static javax.swing.JTextField txtPrecioVenta;
@@ -656,6 +668,5 @@ public class frmConsumo extends javax.swing.JInternalFrame {
     private javax.swing.JTextField txtcantidad;
     private javax.swing.JTextField txtidconsumo;
     public static javax.swing.JTextField txtidproducto;
-    public static javax.swing.JTextField txtidreserva;
     // End of variables declaration//GEN-END:variables
 }

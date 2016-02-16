@@ -25,7 +25,7 @@ public class Fconsumo
     {
         DefaultTableModel modelo;
         
-        String [] titulos = {"ID","", "Id Reserva", "Id Producto",
+        String [] titulos = {"ID", "Id Reserva", "Id Producto",
                              "Producto","Cantidad","Precio de Venta","Estado"
                             };
         
@@ -45,13 +45,13 @@ public class Fconsumo
             while (rs.next())
             {      
 
-               registro[0] = rs.getString("idconsumo");
-               registro[1] = rs.getString("idreserva");
-               registro[2] = rs.getString("idproducto");
-               registro[3] = rs.getString("nombre");
-               registro[4] = rs.getString("cantidad");
-               registro[5] = rs.getString("precio_venta");
-               registro[6] = rs.getString("estado");
+               registro [0]=rs.getString("idconsumo");
+               registro [1]=rs.getString("idreserva");
+               registro [2]=rs.getString("idproducto");
+               registro [3]=rs.getString("nombre");
+               registro [4]=rs.getString("cantidad");
+               registro [5]=rs.getString("precio_venta");
+               registro [6]=rs.getString("estado");
                
                
                TotalRegistros = TotalRegistros + 1 ;
@@ -104,23 +104,22 @@ public class Fconsumo
         }
     }
     
-    public boolean Editar (VConsumo datos)
+    public boolean Editar (VConsumo dts)
     {
-        sSql = "UPDATE consumo SET  idreserva = ?,idproducto = ?,cantidad = ?,"
-             + "precio_venta = ?, estado = ? WHERE idconsumo = ? ";
+        sSql = "update consumo set idreserva=?,idproducto=?,cantidad=?,precio_venta=?,estado=? where idconsumo=? ";
         
         try 
         {
             PreparedStatement pst = cn.prepareStatement(sSql);
             
            
-            pst.setInt(1, datos.getIdreserva());
-            pst.setInt(2, datos.getIdproducto());
-            pst.setDouble(3, datos.getCantidad());
-            pst.setDouble(4, datos.getPrecio_venta());
-            pst.setString(5, datos.getEstado());
-            
-            pst.setInt(6, datos.getIdconsusmo());
+           pst.setInt(1, dts.getIdreserva());
+           pst.setInt(2, dts.getIdproducto());
+           pst.setDouble(3, dts.getCantidad());
+           pst.setDouble(4, dts.getPrecio_venta());
+           pst.setString(5, dts.getEstado());
+           
+           pst.setInt(6, dts.getIdconsusmo());
             
             
             int n = pst.executeUpdate();

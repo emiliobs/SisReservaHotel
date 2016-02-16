@@ -37,27 +37,27 @@ public class frmReserva extends javax.swing.JInternalFrame {
     //método Ocultar Culumnas de la tabla:
     void OcultarColumnass()
     {
-        tablalistado.getColumnModel().getColumn(0).setMaxWidth(0);
-        tablalistado.getColumnModel().getColumn(0).setMinWidth(0);
-        tablalistado.getColumnModel().getColumn(0).setPreferredWidth(0);
+//        tablalistado.getColumnModel().getColumn(0).setMaxWidth(0);
+//        tablalistado.getColumnModel().getColumn(0).setMinWidth(0);
+//        tablalistado.getColumnModel().getColumn(0).setPreferredWidth(0);
         
-         tablalistado.getColumnModel().getColumn(1).setMaxWidth(0);
-        tablalistado.getColumnModel().getColumn(1).setMinWidth(0);
-        tablalistado.getColumnModel().getColumn(1).setPreferredWidth(0);
-        
-         tablalistado.getColumnModel().getColumn(3).setMaxWidth(0);
-        tablalistado.getColumnModel().getColumn(3).setMinWidth(0);
-        tablalistado.getColumnModel().getColumn(3).setPreferredWidth(0);
-        
-         tablalistado.getColumnModel().getColumn(5).setMaxWidth(0);
-        tablalistado.getColumnModel().getColumn(5).setMinWidth(0);
-        tablalistado.getColumnModel().getColumn(5).setPreferredWidth(0);
+//         tablalistado.getColumnModel().getColumn(1).setMaxWidth(0);
+//        tablalistado.getColumnModel().getColumn(1).setMinWidth(0);
+//        tablalistado.getColumnModel().getColumn(1).setPreferredWidth(0);
+//        
+//         tablalistado.getColumnModel().getColumn(3).setMaxWidth(0);
+//        tablalistado.getColumnModel().getColumn(3).setMinWidth(0);
+//        tablalistado.getColumnModel().getColumn(3).setPreferredWidth(0);
+//        
+//         tablalistado.getColumnModel().getColumn(5).setMaxWidth(0);
+//        tablalistado.getColumnModel().getColumn(5).setMinWidth(0);
+//        tablalistado.getColumnModel().getColumn(5).setPreferredWidth(0);
         
     }
     
     void Inhabilitar()
     {
-       txtIdReserva.setVisible(false);       
+       txtIdReserva.setVisible(true);       
        txtIdeHabitacion.setVisible(false);
        txtIdeCliente.setVisible(false);
        txtidTrabajador.setVisible(false);
@@ -96,7 +96,7 @@ public class frmReserva extends javax.swing.JInternalFrame {
     
     void habilitar()
     {
-       txtIdReserva.setVisible(false);       
+       txtIdReserva.setVisible(true);       
        txtIdeHabitacion.setVisible(false);
        txtIdeCliente.setVisible(false);
        txtidTrabajador.setVisible(false);
@@ -565,19 +565,19 @@ public class frmReserva extends javax.swing.JInternalFrame {
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(lblTotalRegistros, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel9)
-                        .addGap(31, 31, 31)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnVerConsumo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(jLabel9)
+                                .addGap(31, 31, 31)
                                 .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 213, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(180, 180, 180)
                                 .addComponent(btnBuscar)
                                 .addGap(44, 44, 44)
                                 .addComponent(btnEliminar)
                                 .addGap(26, 26, 26)
-                                .addComponent(btnSalir)
-                                .addGap(0, 0, Short.MAX_VALUE)))))
+                                .addComponent(btnSalir))
+                            .addComponent(btnVerConsumo, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -845,15 +845,14 @@ public class frmReserva extends javax.swing.JInternalFrame {
 
     private void btnVerConsumoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerConsumoActionPerformed
         int fila = tablalistado.getSelectedRow();
-        
         frmConsumo.idreserva = tablalistado.getValueAt(fila, 0).toString();
-        frmConsumo.cliente = tablalistado.getValueAt(fila, 4).toString();
+        frmConsumo.cliente =tablalistado.getValueAt(fila, 4).toString();
         
-        frmConsumo frmConsumo = new frmConsumo();
         
-        frmInicio.escritorio.add(frmConsumo);
-        frmConsumo.toFront();
-        frmConsumo.setVisible(true);
+        frmConsumo form = new frmConsumo();
+        frmInicio.escritorio.add(form);
+        form.toFront();
+        form.setVisible(true);
     }//GEN-LAST:event_btnVerConsumoActionPerformed
 
     /**
