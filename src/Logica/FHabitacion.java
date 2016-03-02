@@ -215,4 +215,62 @@ public class FHabitacion
            return false;
         }
     }
+    
+    public boolean Desocupar (VHabitacion havitacion)
+    {
+        sSql = "UPDATE habitacion SET estado ='Disponible' WHERE idhabitacion=?";
+        
+        try 
+        {
+            PreparedStatement pst = cn.prepareStatement(sSql);
+            
+            pst.setInt(8, havitacion.getIdHabitacion());
+            
+            int n = pst.executeUpdate();
+            
+            if (n != 0) 
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        } 
+        catch (Exception e) 
+        {
+           JOptionPane.showConfirmDialog(null, e);
+           
+           return false;
+        }
+    }
+    
+    public boolean Ocupar (VHabitacion havitacion)
+    {
+        sSql = "UPDATE habitacion SET estado ='Ocupado' WHERE idhabitacion=?";
+        
+        try 
+        {
+            PreparedStatement pst = cn.prepareStatement(sSql);
+            
+            pst.setInt(8, havitacion.getIdHabitacion());
+            
+            int n = pst.executeUpdate();
+            
+            if (n != 0) 
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        } 
+        catch (Exception e) 
+        {
+           JOptionPane.showConfirmDialog(null, e);
+           
+           return false;
+        }
+    }
 }

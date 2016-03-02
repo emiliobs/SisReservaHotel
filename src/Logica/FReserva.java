@@ -120,10 +120,7 @@ public class FReserva
     
     public boolean Editar (VReserva dts)
     {
-//        UPDATE `reserva` SET `idreserva`=[value-1],`idhabitacion`=[value-2],
-//        `idcliente`=[value-3],`idtrabajador`=[value-4],`tipo_reserva`=[value-5],
-//        `fecha_reserva`=[value-6],`fecha_ingresa`=[value-7],`fecha_salida`=[value-8],
-//        `costo_alojamiento`=[value-9],`estado`=[value-10] WHERE 1
+      
         
         sSQL = "update reserva set idhabitacion=?,idcliente=?,idtrabajador=?,tipo_reserva=?,fecha_reserva=?,fecha_ingresa=?,fecha_salida=?,costo_alojamiento=?,estado=?"+
                " where idreserva=?";
@@ -142,6 +139,41 @@ public class FReserva
            pst.setDate(7, dts.getFechaSalida());
            pst.setDouble(8, dts.getCostoAlojamiento());
            pst.setString(9, dts.getEstado());
+           
+           pst.setInt(10, dts.getIdReserva());
+            
+            int n = pst.executeUpdate();
+            
+            if (n != 0) 
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        } 
+        catch (Exception e) 
+        {
+           JOptionPane.showConfirmDialog(null, e);
+           
+           return false;
+        }
+    }
+    
+    public boolean Pagar (VReserva dts)
+    {
+      
+        
+        sSQL = "update reserva set estado='Pagada'"+
+               " where idreserva=?";
+        
+        try 
+        {
+            
+            
+           PreparedStatement pst = cn.prepareStatement(sSQL);
+           
            
            pst.setInt(10, dts.getIdReserva());
             

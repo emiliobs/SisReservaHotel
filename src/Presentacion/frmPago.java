@@ -5,8 +5,16 @@
  */
 package Presentacion;
 
+import Datos.VHabitacion;
+import Datos.VReserva;
+import Datos.Vpago;
+import Logica.FHabitacion;
+import Logica.FPago;
 import Logica.FProducto;
+import Logica.FReserva;
 import Logica.Fconsumo;
+import java.sql.Date;
+import java.util.Calendar;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -74,42 +82,60 @@ public class frmPago extends javax.swing.JFrame {
         
     }
     
-    void habilitar()
-    {
-       txtIdPago.setVisible(false);       
-       txtIdReserva.setEnabled(true);
-       cboTipoComprobante.setEnabled(true);
-       txtDescripcion.setEnabled(true);
-       txtNumeroComprobante.setEnabled(true);
-       
-       btnGuardar.setEnabled(true);
-       btnCancelar.setEnabled(true);
-       btnEliminar.setEnabled(true);
-       
-       txtIdPago.setText("");
-       txtIdReserva.setText("");
-       txtDescripcion.setText("");
-       txtNumeroComprobante.setText("");
-       
-    }
-    
     void Inhabilitar()
     {
-       txtIdPago.setVisible(false);       
-       txtIdReserva.setEnabled(false);
-       cboTipoComprobante.setEnabled(false);
-       txtDescripcion.setEnabled(false);
+       txtIdPago.setVisible(false);   
+       
+       txtIdReserva.setVisible(false);
+       txtCliente.setEnabled(false);
        txtNumeroComprobante.setEnabled(false);
+       cboTipoComprobante.setEnabled(false);
+       txtIgv.setEnabled(false);
+       txtTotalPago.setEnabled(false);
+       txtTotalReserva.setEnabled(false);
+       dcFechaEmision.setEnabled(false);
+       dcFechaPago.setEnabled(false);
+       
+       txtIdHabitacion.setVisible(false);
+       txtHabitacion.setEnabled(false);
        
        btnGuardar.setEnabled(false);
        btnCancelar.setEnabled(false);
        btnEliminar.setEnabled(false);
        
-       txtIdPago.setText("");
-       txtIdReserva.setText("");
-       txtDescripcion.setText("");
+       txtIdPago.setText("");       
+       txtCliente.setText("");
        txtNumeroComprobante.setText("");
+       txtIgv.setText("");
        
+       
+    }
+    
+    void habilitar()
+    {
+        txtIdPago.setVisible(false);   
+       
+       txtIdReserva.setVisible(true);
+       txtCliente.setEnabled(true);
+       txtNumeroComprobante.setEnabled(true);
+       cboTipoComprobante.setEnabled(true);
+       txtIgv.setEnabled(true);
+       txtTotalPago.setEnabled(true);
+       txtTotalReserva.setEnabled(true);
+       dcFechaEmision.setEnabled(true);
+       dcFechaPago.setEnabled(true);
+       
+       txtIdHabitacion.setVisible(true);
+       txtHabitacion.setEnabled(true);
+       
+       btnGuardar.setEnabled(true);
+       btnCancelar.setEnabled(true);
+       btnEliminar.setEnabled(true);
+       
+      // txtIdPago.setText("");       
+       txtIdPago.setText("");
+       txtNumeroComprobante.setText("");
+       txtIgv.setText("");
        
     }
     
@@ -118,12 +144,22 @@ public class frmPago extends javax.swing.JFrame {
         try 
         {
            DefaultTableModel modelo;
-            FProducto producto = new FProducto();
-            modelo = producto.Mostrar(txtBuscar);
+            FPago funcion = new FPago();
+            modelo = funcion.Mostrar(txtBuscar);
             
             tablalistadoPago.setModel(modelo);
-            OcultarColumnass();
-            lblTotalRegistros.setText("Total Registros: " + Integer.toString(producto.TotalRegistros));
+            OcultarColumnassPago();
+            lblTotalRegistros.setText("Total Registros: " + Integer.toString(funcion.TotalRegistros));
+            
+            
+            //Mostar los datos del consumo:
+            Fconsumo funciones2 = new Fconsumo();
+            modelo = funciones2.Mostrar(txtBuscar);
+            tablaListadoConsumo.setModel(modelo);
+            OcultarColumnassConsumo();
+            
+            lblTotalRegistroConsumos.setText("Total Consumo: " + funciones2.TotalRegistros);
+            lblTotalConsumo.setText("Consumo Total: $. " + funciones2.TotalRegistros);
             
         } 
         catch (Exception e)
@@ -174,7 +210,6 @@ public class frmPago extends javax.swing.JFrame {
         jLabel9 = new javax.swing.JLabel();
         txtBuscar = new javax.swing.JTextField();
         btnEliminar = new javax.swing.JButton();
-        btnBuscar = new javax.swing.JButton();
         btnSalir = new javax.swing.JButton();
         lblTotalRegistros = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
@@ -444,16 +479,6 @@ public class frmPago extends javax.swing.JFrame {
             }
         });
 
-        btnBuscar.setBackground(new java.awt.Color(51, 51, 51));
-        btnBuscar.setForeground(new java.awt.Color(255, 255, 255));
-        btnBuscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Files/1446577699_folder-search.png"))); // NOI18N
-        btnBuscar.setText("Buscar");
-        btnBuscar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnBuscarActionPerformed(evt);
-            }
-        });
-
         btnSalir.setBackground(new java.awt.Color(51, 51, 51));
         btnSalir.setForeground(new java.awt.Color(255, 255, 255));
         btnSalir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Files/Exit-32.png"))); // NOI18N
@@ -479,9 +504,7 @@ public class frmPago extends javax.swing.JFrame {
                         .addComponent(jLabel9)
                         .addGap(31, 31, 31)
                         .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 213, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(130, 130, 130)
-                        .addComponent(btnBuscar)
-                        .addGap(35, 35, 35)
+                        .addGap(272, 272, 272)
                         .addComponent(btnEliminar)
                         .addGap(39, 39, 39)
                         .addComponent(btnSalir)
@@ -498,7 +521,6 @@ public class frmPago extends javax.swing.JFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(37, 37, 37)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btnBuscar)
                             .addComponent(btnEliminar)
                             .addComponent(btnSalir)))
                     .addGroup(jPanel2Layout.createSequentialGroup()
@@ -507,7 +529,7 @@ public class frmPago extends javax.swing.JFrame {
                             .addComponent(jLabel9)
                             .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 209, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblTotalRegistros, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -629,66 +651,104 @@ public class frmPago extends javax.swing.JFrame {
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         // TODO add your handling code here:
         Inhabilitar();
-        OcultarColumnass();
+        OcultarColumnassConsumo();
+        OcultarColumnassPago();
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         // TODO add your handling code here:
         //valido los campos:
-        if (txtIdReserva.getText().length() == 0)
+        if (txtIgv.getText().length() == 0)
         {
-            JOptionPane.showConfirmDialog(rootPane, "Debes ingresar un Nombre para el Producto.");
-            txtIdReserva.requestFocus();
+            JOptionPane.showConfirmDialog(rootPane, "Debes ingresar el IGV del conprobante general.");
+            txtIgv.requestFocus();
             return;
 
         }
 
-        if (txtDescripcion.getText().length() == 0)
+        if (txtTotalPago.getText().length() == 0)
         {
-            JOptionPane.showConfirmDialog(rootPane, "Debes ingresar una Descripción para el Producto.");
-            txtDescripcion.requestFocus();
+            JOptionPane.showConfirmDialog(rootPane, "Debes ingresar el total de pago del comprobante.");
+            txtTotalPago.requestFocus();
             return;
 
         }
 
         if (txtNumeroComprobante.getText().length() == 0)
         {
-            JOptionPane.showConfirmDialog(rootPane, "Debes ingresar un Precio para la venta del Producto.");
+            JOptionPane.showConfirmDialog(rootPane, "Debes ingresar un Número de comprobante del pago.");
             txtNumeroComprobante.requestFocus();
             return;
 
         }
 
-        VProducto datos = new VProducto();
-        FProducto  funcion = new FProducto();
+        Vpago datos = new Vpago();
+        FPago  funcion = new FPago();
 
-        datos.setNombre(txtIdReserva.getText());
-
+        datos.setIdReserva(Integer.parseInt(txtIdReserva.getText()));
+        
         int seleccionado = cboTipoComprobante.getSelectedIndex();
-        datos.setUnidadMedida((String)cboTipoComprobante.getItemAt(seleccionado));
-
-        datos.setDescripcion(txtDescripcion.getText());
-
-        datos.setPrecioVenta(Double.parseDouble(txtNumeroComprobante.getText()));
+        datos.setTipoComprobante(cboTipoComprobante.getItemAt(seleccionado).toString());
+        
+        datos.setNumeroComprobante(txtNumeroComprobante.getText());
+        datos.setIgv(Double.parseDouble(txtIgv.getText()));
+        datos.setTotalPago(Double.parseDouble(txtTotalPago.getText()));
+        
+        Calendar cal;
+        int d,m,a;
+        
+        cal = dcFechaPago.getCalendar();
+        d = cal.get(Calendar.DAY_OF_MONTH);
+        m = cal.get(Calendar.MONTH);
+        a = cal.get(Calendar.YEAR);
+        
+        datos.setFechaPago(new Date(a,m,d));
+        
+        cal = dcFechaEmision.getCalendar();
+        d = cal.get(Calendar.DAY_OF_MONTH);
+        m = cal.get(Calendar.MONTH);
+        a = cal.get(Calendar.YEAR);
+        
+        datos.setFechaEmision(new Date(a,m,d));
 
         if (accion.equals("guardar"))
         {
             if (funcion.Insertar(datos))
             {
-                JOptionPane.showConfirmDialog(rootPane, "El Producto fue registrada satisfactoriamente.");
-                Mostrar("");
+                JOptionPane.showConfirmDialog(rootPane, " El pago po $. " +
+                                              txtTotalPago.getText()      + 
+                                              " de la Sr(a) " + txtCliente.getText() + 
+                                              " ha sido realizado con Éxito");
+                Mostrar(idReserva);
                 Inhabilitar();
+                
+                //Desocupar la Habicatación:
+                FHabitacion funcion2 = new FHabitacion();
+                VHabitacion datos2 = new VHabitacion();
+                
+                datos2.setIdHabitacion(Integer.parseInt(txtIdHabitacion.getText()));
+                funcion2.Desocupar(datos2);
+                
+                //CAncelar o Pagar la Reserva:
+                FReserva funcion3 = new FReserva();
+                VReserva datos3 = new VReserva();
+                
+                datos3.setIdReserva(Integer.parseInt(txtIdReserva.getText()));
+                funcion3.Pagar(datos3);
+                
             }
         }
         else if(accion.equals("editar"))
         {
-            datos.setIdProducto(Integer.parseInt(txtIdPago.getText()));
+            datos.setIdPago(Integer.parseInt(txtIdPago.getText()));
 
             if (funcion.Editar(datos))
             {
-                JOptionPane.showConfirmDialog(rootPane, "El Producto fue Editado satisfatoriamente.");
-                Mostrar("");
+                JOptionPane.showConfirmDialog(rootPane, "El Pago del Sr(a). " + txtCliente.getText() + " Ha sido Modificado Correctamente.");
+                Mostrar(idReserva);
                 Inhabilitar();
+                
+                
             }
         }
     }//GEN-LAST:event_btnGuardarActionPerformed
@@ -710,25 +770,20 @@ public class frmPago extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_btnSalirActionPerformed
 
-    private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
-        // TODO add your handling code here:
-        Mostrar(txtBuscar.getText());
-    }//GEN-LAST:event_btnBuscarActionPerformed
-
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
         //valido texto:
         if (!txtIdPago.getText().equals(""))
         {
-            int confirmacion = JOptionPane.showConfirmDialog(rootPane, "Estás seguro de Eliminar el Producto?", "Confirmar", 2);
+            int confirmacion = JOptionPane.showConfirmDialog(rootPane, "Estás seguro de Eliminar el PAgo seleccionado?", "Confirmar", 2);
 
             if (confirmacion == 0)
             {
-                FProducto funcion = new FProducto();
-                VProducto datos = new VProducto();
+                FPago funcion = new FPago();
+                Vpago datos = new Vpago();
 
-                datos.setIdProducto(Integer.parseInt(txtIdPago.getText()));
+                datos.setIdPago(Integer.parseInt(txtIdPago.getText()));
                 funcion.Eliminar(datos);
-                Mostrar("");
+                Mostrar(idReserva);
                 Inhabilitar();
             }
         }
@@ -749,10 +804,14 @@ public class frmPago extends javax.swing.JFrame {
         int fila = tablalistadoPago.rowAtPoint(evt.getPoint());
 
         txtIdPago.setText(tablalistadoPago.getValueAt(fila, 0).toString());
-        txtIdReserva.setText(tablalistadoPago.getValueAt(fila, 1).toString());
-        txtDescripcion.setText(tablalistadoPago.getValueAt(fila, 2).toString());
-        cboTipoComprobante.setSelectedItem(tablalistadoPago.getValueAt(fila, 3).toString());
-        txtNumeroComprobante.setText(tablalistadoPago.getValueAt(fila, 4).toString());
+        cboTipoComprobante.setSelectedItem(tablalistadoPago.getValueAt(fila, 2).toString());
+        txtNumeroComprobante.setText(tablalistadoPago.getValueAt(fila, 3).toString());
+        txtIgv.setText(tablalistadoPago.getValueAt(fila, 4).toString());
+        txtTotalPago.setText(tablalistadoPago.getValueAt(fila, 5).toString());
+        
+        dcFechaPago.setDate(Date.valueOf(tablalistadoPago.getValueAt(fila, 6).toString()));
+        dcFechaPago.setDate(Date.valueOf(tablalistadoPago.getValueAt(fila, 7).toString()));
+        
     }//GEN-LAST:event_tablalistadoPagoMouseClicked
 
     private void tablaListadoConsumoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaListadoConsumoMouseClicked
@@ -795,7 +854,6 @@ public class frmPago extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnGuardar;
