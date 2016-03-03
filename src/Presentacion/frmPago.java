@@ -8,21 +8,31 @@ package Presentacion;
 import Datos.VHabitacion;
 import Datos.VReserva;
 import Datos.Vpago;
+import Logica.Conexion;
 import Logica.FHabitacion;
 import Logica.FPago;
 import Logica.FProducto;
 import Logica.FReserva;
 import Logica.Fconsumo;
+import java.io.File;
+import java.sql.Connection;
 import java.sql.Date;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.view.JasperViewer;
 
 /**
  *
  * @author Emilio
  */
-public class frmPago extends javax.swing.JFrame {
+public class frmPago extends javax.swing.JInternalFrame {
 
     /**
      * Creates new form frmPago
@@ -86,8 +96,8 @@ public class frmPago extends javax.swing.JFrame {
     {
        txtIdPago.setVisible(false);   
        
-       txtIdReserva.setVisible(false);
-       txtCliente.setEnabled(false);
+       txtIdReserva.setVisible(true);
+       txtCliente.setEnabled(true);
        txtNumeroComprobante.setEnabled(false);
        cboTipoComprobante.setEnabled(false);
        txtIgv.setEnabled(false);
@@ -158,8 +168,8 @@ public class frmPago extends javax.swing.JFrame {
             tablaListadoConsumo.setModel(modelo);
             OcultarColumnassConsumo();
             
-            lblTotalRegistroConsumos.setText("Total Consumo: " + funciones2.TotalRegistros);
-            lblTotalConsumo.setText("Consumo Total: $. " + funciones2.TotalRegistros);
+            lblTotalRegistroConsumos.setText("Total Consumo: " + funciones2.totalConsumo);
+            lblTotalConsumo.setText("Consumo Total: $. " + funciones2.totalConsumo);
             
         } 
         catch (Exception e)
@@ -207,18 +217,17 @@ public class frmPago extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         tablalistadoPago = new javax.swing.JTable();
-        jLabel9 = new javax.swing.JLabel();
-        txtBuscar = new javax.swing.JTextField();
         btnEliminar = new javax.swing.JButton();
         btnSalir = new javax.swing.JButton();
         lblTotalRegistros = new javax.swing.JLabel();
+        btnImpromirComprbante = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane5 = new javax.swing.JScrollPane();
         tablaListadoConsumo = new javax.swing.JTable();
         lblTotalRegistroConsumos = new javax.swing.JLabel();
         lblTotalConsumo = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jPanel1.setBackground(new java.awt.Color(255, 204, 51));
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Registro de Pagos:", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 14))); // NOI18N
@@ -460,16 +469,8 @@ public class frmPago extends javax.swing.JFrame {
         });
         jScrollPane3.setViewportView(tablalistadoPago);
 
-        jLabel9.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jLabel9.setText("Busca por Nombre:");
-
-        txtBuscar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtBuscarActionPerformed(evt);
-            }
-        });
-
         btnEliminar.setBackground(new java.awt.Color(51, 51, 51));
+        btnEliminar.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         btnEliminar.setForeground(new java.awt.Color(255, 255, 255));
         btnEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Files/1446577801_DeleteRed.png"))); // NOI18N
         btnEliminar.setText("Eliminar");
@@ -480,6 +481,7 @@ public class frmPago extends javax.swing.JFrame {
         });
 
         btnSalir.setBackground(new java.awt.Color(51, 51, 51));
+        btnSalir.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         btnSalir.setForeground(new java.awt.Color(255, 255, 255));
         btnSalir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Files/Exit-32.png"))); // NOI18N
         btnSalir.setText("Salir");
@@ -492,6 +494,17 @@ public class frmPago extends javax.swing.JFrame {
         lblTotalRegistros.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
         lblTotalRegistros.setText("Regisros: ");
 
+        btnImpromirComprbante.setBackground(new java.awt.Color(0, 0, 51));
+        btnImpromirComprbante.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        btnImpromirComprbante.setForeground(new java.awt.Color(255, 255, 255));
+        btnImpromirComprbante.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Files/imprimir.png"))); // NOI18N
+        btnImpromirComprbante.setText("Imprimir");
+        btnImpromirComprbante.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnImpromirComprbanteActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -501,14 +514,12 @@ public class frmPago extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel9)
-                        .addGap(31, 31, 31)
-                        .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 213, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(272, 272, 272)
+                        .addComponent(btnImpromirComprbante, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(466, 466, 466)
                         .addComponent(btnEliminar)
                         .addGap(39, 39, 39)
                         .addComponent(btnSalir)
-                        .addGap(0, 72, Short.MAX_VALUE))
+                        .addGap(72, 72, 72))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(lblTotalRegistros, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -517,19 +528,13 @@ public class frmPago extends javax.swing.JFrame {
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(37, 37, 37)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btnEliminar)
-                            .addComponent(btnSalir)))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(48, 48, 48)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel9)
-                            .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(35, 35, 35)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnEliminar)
+                    .addComponent(btnSalir)
+                    .addComponent(btnImpromirComprbante, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 209, Short.MAX_VALUE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 215, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblTotalRegistros, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -575,7 +580,7 @@ public class frmPago extends javax.swing.JFrame {
                         .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 940, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(lblTotalConsumo, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(lblTotalConsumo, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(53, 53, 53)
                         .addComponent(lblTotalRegistroConsumos, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
@@ -694,6 +699,8 @@ public class frmPago extends javax.swing.JFrame {
         datos.setIgv(Double.parseDouble(txtIgv.getText()));
         datos.setTotalPago(Double.parseDouble(txtTotalPago.getText()));
         
+        
+        
         Calendar cal;
         int d,m,a;
         
@@ -774,7 +781,7 @@ public class frmPago extends javax.swing.JFrame {
         //valido texto:
         if (!txtIdPago.getText().equals(""))
         {
-            int confirmacion = JOptionPane.showConfirmDialog(rootPane, "Estás seguro de Eliminar el PAgo seleccionado?", "Confirmar", 2);
+            int confirmacion = JOptionPane.showConfirmDialog(rootPane, "Estás seguro de Eliminar el Pago seleccionado?", "Confirmar", 2);
 
             if (confirmacion == 0)
             {
@@ -789,11 +796,6 @@ public class frmPago extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnEliminarActionPerformed
 
-    private void txtBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtBuscarActionPerformed
-        // TODO add your handling code here:
-        Mostrar("");
-    }//GEN-LAST:event_txtBuscarActionPerformed
-
     private void tablalistadoPagoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablalistadoPagoMouseClicked
         // TODO add your handling code here:
         btnGuardar.setText("Editar");
@@ -804,6 +806,7 @@ public class frmPago extends javax.swing.JFrame {
         int fila = tablalistadoPago.rowAtPoint(evt.getPoint());
 
         txtIdPago.setText(tablalistadoPago.getValueAt(fila, 0).toString());
+        
         cboTipoComprobante.setSelectedItem(tablalistadoPago.getValueAt(fila, 2).toString());
         txtNumeroComprobante.setText(tablalistadoPago.getValueAt(fila, 3).toString());
         txtIgv.setText(tablalistadoPago.getValueAt(fila, 4).toString());
@@ -817,6 +820,38 @@ public class frmPago extends javax.swing.JFrame {
     private void tablaListadoConsumoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaListadoConsumoMouseClicked
         // TODO add your handling code here:
     }//GEN-LAST:event_tablaListadoConsumoMouseClicked
+
+    private  Connection connection = new Conexion().conectar();
+
+    private void btnImpromirComprbanteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImpromirComprbanteActionPerformed
+      
+        if (!txtIdPago.getText().equals(""))
+        {
+
+            Map p = new HashMap();
+            p.put("idpago", txtIdPago.getText());
+
+            JasperReport report;
+            JasperPrint print;
+
+            try 
+            {
+               report = JasperCompileManager.compileReport(new File("").getAbsolutePath() + "/src/Reportes/rptComprobante.jrxml");
+
+               print = JasperFillManager.fillReport(report, p, connection);
+
+               JasperViewer view = new JasperViewer(print, false);
+
+               view.setTitle("Comprobante......");
+               view.setVisible(true);
+            } 
+            catch (Exception e) 
+            {
+             e.printStackTrace();
+            }
+        
+       }
+    }//GEN-LAST:event_btnImpromirComprbanteActionPerformed
 
     /**
      * @param args the command line arguments
@@ -857,6 +892,7 @@ public class frmPago extends javax.swing.JFrame {
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnGuardar;
+    private javax.swing.JButton btnImpromirComprbante;
     private javax.swing.JButton btnNuevo;
     private javax.swing.JButton btnSalir;
     private javax.swing.JComboBox cboTipoComprobante;
@@ -873,7 +909,6 @@ public class frmPago extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -884,7 +919,6 @@ public class frmPago extends javax.swing.JFrame {
     private javax.swing.JLabel lblTotalRegistros;
     private javax.swing.JTable tablaListadoConsumo;
     private javax.swing.JTable tablalistadoPago;
-    private javax.swing.JTextField txtBuscar;
     private javax.swing.JTextField txtCliente;
     private javax.swing.JTextField txtHabitacion;
     private javax.swing.JTextField txtIdHabitacion;

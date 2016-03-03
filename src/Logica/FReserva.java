@@ -161,12 +161,11 @@ public class FReserva
         }
     }
     
-    public boolean Pagar (VReserva dts)
+    public boolean Pagar(VReserva dts)
     {
       
         
-        sSQL = "update reserva set estado='Pagada'"+
-               " where idreserva=?";
+        sSQL="update reserva set estado='Pagada' where idreserva=?";
         
         try 
         {
@@ -175,7 +174,7 @@ public class FReserva
            PreparedStatement pst = cn.prepareStatement(sSQL);
            
            
-           pst.setInt(10, dts.getIdReserva());
+           pst.setInt(1, dts.getIdReserva());
             
             int n = pst.executeUpdate();
             
@@ -198,7 +197,7 @@ public class FReserva
     
     public boolean Eliminar (VReserva datos)
     {
-        sSQL="DELETE FROM  reserva  WHERE idreserva = ?";
+        sSQL="DELETE FROM  reserva  WHERE idreserva=?";
         
         try 
         {

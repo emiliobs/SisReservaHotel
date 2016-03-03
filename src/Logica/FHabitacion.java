@@ -43,8 +43,8 @@ public class FHabitacion
             {      
 
                registro[0] = rs.getString("idhabitacion");
-               registro[1] = rs.getString("numero");
-               registro[2] = rs.getString("piso");
+               registro[1] = rs.getString("piso");
+               registro[2] = rs.getString("numero");
                registro[3] = rs.getString("descripcion");
                registro[4] = rs.getString("caracteristicas");
                registro[5] = rs.getString("precio_diario");
@@ -218,13 +218,13 @@ public class FHabitacion
     
     public boolean Desocupar (VHabitacion havitacion)
     {
-        sSql = "UPDATE habitacion SET estado ='Disponible' WHERE idhabitacion=?";
+        sSql = "UPDATE habitacion set estado='Disponible' WHERE idhabitacion=?";
         
         try 
         {
             PreparedStatement pst = cn.prepareStatement(sSql);
             
-            pst.setInt(8, havitacion.getIdHabitacion());
+            pst.setInt(1, havitacion.getIdHabitacion());
             
             int n = pst.executeUpdate();
             
@@ -247,13 +247,13 @@ public class FHabitacion
     
     public boolean Ocupar (VHabitacion havitacion)
     {
-        sSql = "UPDATE habitacion SET estado ='Ocupado' WHERE idhabitacion=?";
+        sSql = "UPDATE habitacion set estado='Ocupado' WHERE idhabitacion=?";
         
         try 
         {
             PreparedStatement pst = cn.prepareStatement(sSql);
             
-            pst.setInt(8, havitacion.getIdHabitacion());
+            pst.setInt(1, havitacion.getIdHabitacion());
             
             int n = pst.executeUpdate();
             

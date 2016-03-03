@@ -37,21 +37,21 @@ public class frmReserva extends javax.swing.JInternalFrame {
     //método Ocultar Culumnas de la tabla:
     void OcultarColumnass()
     {
-//        tablalistado.getColumnModel().getColumn(0).setMaxWidth(0);
-//        tablalistado.getColumnModel().getColumn(0).setMinWidth(0);
-//        tablalistado.getColumnModel().getColumn(0).setPreferredWidth(0);
+        tablalistado.getColumnModel().getColumn(0).setMaxWidth(0);
+        tablalistado.getColumnModel().getColumn(0).setMinWidth(0);
+        tablalistado.getColumnModel().getColumn(0).setPreferredWidth(0);
         
-//         tablalistado.getColumnModel().getColumn(1).setMaxWidth(0);
-//        tablalistado.getColumnModel().getColumn(1).setMinWidth(0);
-//        tablalistado.getColumnModel().getColumn(1).setPreferredWidth(0);
-//        
-//         tablalistado.getColumnModel().getColumn(3).setMaxWidth(0);
-//        tablalistado.getColumnModel().getColumn(3).setMinWidth(0);
-//        tablalistado.getColumnModel().getColumn(3).setPreferredWidth(0);
-//        
-//         tablalistado.getColumnModel().getColumn(5).setMaxWidth(0);
-//        tablalistado.getColumnModel().getColumn(5).setMinWidth(0);
-//        tablalistado.getColumnModel().getColumn(5).setPreferredWidth(0);
+         tablalistado.getColumnModel().getColumn(1).setMaxWidth(0);
+        tablalistado.getColumnModel().getColumn(1).setMinWidth(0);
+        tablalistado.getColumnModel().getColumn(1).setPreferredWidth(0);
+        
+         tablalistado.getColumnModel().getColumn(3).setMaxWidth(0);
+        tablalistado.getColumnModel().getColumn(3).setMinWidth(0);
+        tablalistado.getColumnModel().getColumn(3).setPreferredWidth(0);
+        
+         tablalistado.getColumnModel().getColumn(5).setMaxWidth(0);
+        tablalistado.getColumnModel().getColumn(5).setMinWidth(0);
+        tablalistado.getColumnModel().getColumn(5).setPreferredWidth(0);
         
     }
     
@@ -133,7 +133,7 @@ public class frmReserva extends javax.swing.JInternalFrame {
     
     
     
-    void Mostrar(String txtBuscar)
+    public void Mostrar(String txtBuscar)
     {
         try 
         {
@@ -200,6 +200,7 @@ public class frmReserva extends javax.swing.JInternalFrame {
         btnSalir = new javax.swing.JButton();
         lblTotalRegistros = new javax.swing.JLabel();
         btnVerConsumo = new javax.swing.JButton();
+        btnRealizarPagos = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(1788, 821));
@@ -553,6 +554,13 @@ public class frmReserva extends javax.swing.JInternalFrame {
             }
         });
 
+        btnRealizarPagos.setText("Realizar Pagos..");
+        btnRealizarPagos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRealizarPagosActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -576,7 +584,10 @@ public class frmReserva extends javax.swing.JInternalFrame {
                                 .addComponent(btnEliminar)
                                 .addGap(26, 26, 26)
                                 .addComponent(btnSalir))
-                            .addComponent(btnVerConsumo, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(btnVerConsumo, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnRealizarPagos, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -584,7 +595,9 @@ public class frmReserva extends javax.swing.JInternalFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(btnVerConsumo)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnVerConsumo)
+                    .addComponent(btnRealizarPagos))
                 .addGap(1, 1, 1)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel9)
@@ -723,11 +736,11 @@ public class frmReserva extends javax.swing.JInternalFrame {
                 Inhabilitar();
                 
                 //ocupamos la Habitación alquilada
-                FHabitacion func3= new FHabitacion();
-                VHabitacion dts3 = new VHabitacion();
+                FHabitacion funcion3= new FHabitacion();
+                VHabitacion datos3 = new VHabitacion();
                 
-                dts3.setIdHabitacion(Integer.parseInt(txtIdeHabitacion.getText()));
-                //func3.ocu(dts3);
+                datos3.setIdHabitacion(Integer.parseInt(txtIdeHabitacion.getText()));
+                funcion3.Ocupar(datos3);
             }
 
         }
@@ -855,6 +868,23 @@ public class frmReserva extends javax.swing.JInternalFrame {
         form.setVisible(true);
     }//GEN-LAST:event_btnVerConsumoActionPerformed
 
+    private void btnRealizarPagosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRealizarPagosActionPerformed
+        
+        int fila = tablalistado.getSelectedRow();
+        
+        frmPago.idReserva = tablalistado.getValueAt(fila, 0).toString();
+        frmPago.Cliente = tablalistado.getValueAt(fila, 4).toString();
+        frmPago.totalReserva = Double.parseDouble(tablalistado.getValueAt(fila, 11).toString());
+        
+        frmPago.idHabitacion = tablalistado.getValueAt(fila, 1).toString();
+        frmPago.Habitacion = tablalistado.getValueAt(fila, 2).toString();
+        
+        frmPago frm = new frmPago();
+        frmInicio.escritorio.add(frm);
+        frm.toFront();
+        frm.setVisible(true);
+    }//GEN-LAST:event_btnRealizarPagosActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -898,6 +928,7 @@ public class frmReserva extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnGuardar;
     private javax.swing.JButton btnNuevo;
+    private javax.swing.JButton btnRealizarPagos;
     private javax.swing.JButton btnSalir;
     private javax.swing.JButton btnVerConsumo;
     private javax.swing.JComboBox cboEstado;
@@ -920,7 +951,7 @@ public class frmReserva extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JLabel lblTotalRegistros;
-    private javax.swing.JTable tablalistado;
+    public static javax.swing.JTable tablalistado;
     private javax.swing.JTextField txtBuscar;
     public static javax.swing.JTextField txtCliente;
     private javax.swing.JTextField txtCostoAlojamiento;
